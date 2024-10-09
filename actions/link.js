@@ -2,9 +2,14 @@
 
 import { defaultHeader } from "@/utils/header";
 import { makeid } from "@/utils/link";
+import { createClient } from "@/utils/supabase/server";
 
 export async function linkToShortAction(prevState, formData){
-    console.log(formData);
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    console.log(user.user_metadata.role);
+    console.log(user);
+
     const longUrl = formData.get("longUrl");
     if(!longUrl) return { error: "Url alanı boş olamaz" }
     const regex = /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
@@ -16,7 +21,9 @@ export async function linkToShortAction(prevState, formData){
         headers: defaultHeader,
         body: JSON.stringify({
             short_url: shortUrl,
-            long_url: longUrl
+            long_url: longUrl,
+            user_id: user ? user.id : null
+            
         })
     })
 

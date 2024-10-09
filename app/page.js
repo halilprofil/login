@@ -12,10 +12,7 @@ export default async function Home() {
     .from('urls')
     .select('*');
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    // Redirect or update the state after sign out if needed
-  };
+ 
 
   return (
     <>

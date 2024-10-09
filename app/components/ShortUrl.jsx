@@ -5,16 +5,24 @@ import { useFormState } from "react-dom";
 import { linkToShortAction } from "@/actions/link"; 
 
 export default function ShortUrl({ urls, user }) {
+
   const [data, setData] = useState([]);
-  
-  
   const [state, action] = useFormState(linkToShortAction, {
     message: null,
     error: null,
   });
 
+  console.log(urls)
+  console.log(user);
+  console.log();
+
   useEffect(() => {
-    setData(urls);
+    if(user){
+      setData(urls?.filter(x => x.user_id ===  user.id));
+    }else{
+      setData(urls);
+    }
+    
   }, [urls]);
 
   

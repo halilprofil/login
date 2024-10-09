@@ -95,3 +95,29 @@ button:hover {
 .url-list a:hover {
   text-decoration: underline;
 }
+
+.loginForm{
+  display: flex;
+  flex-direction: column;
+  margin-inline: auto;
+  width: 30%;
+  margin-block: 50px;
+  align-items: center;
+  button{
+    margin: 10px;
+    width: 40%;
+  }
+  div{
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.loginBtns{
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+  margin-block: 30px;
+  margin-right: 75px;
+  
+}

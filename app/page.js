@@ -1,21 +1,36 @@
-
+import { createClient } from "@/utils/supabase/server";
 import ShortUrl from "./components/ShortUrl";
-
+import SignOut from "./components/SignOut";
+import Link from "next/link";
 
 export default async function Home() {
+  const supabase = createClient();
+  
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  let { data: urls, error } = await supabase
+    .from('urls')
+    .select('*');
 
-  const data = await fetch('https://apcspemppdfwmvxshfkb.supabase.co/rest/v1/urls?select=*', {
-    headers: {
-      'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwY3NwZW1wcGRmd212eHNoZmtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc4MDI2ODUsImV4cCI6MjA0MzM3ODY4NX0.QSLFWq25bHcLDnVSOKWS6tCJlQ6tFCvIhLacXO6iqko',
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwY3NwZW1wcGRmd212eHNoZmtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc4MDI2ODUsImV4cCI6MjA0MzM3ODY4NX0.QSLFWq25bHcLDnVSOKWS6tCJlQ6tFCvIhLacXO6iqko'  // Yetkilendirme için de eklemen gerekiyor
-    }
-  }).then(r => r.json());
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    // Redirect or update the state after sign out if needed
+  };
 
   return (
     <>
-    <ShortUrl data={data}/>
+      {
+        !user ? (
+          <div className="loginBtns">
+            <Link href="/login"><button>login</button></Link>
+            <Link href="/login"><button>signup</button></Link>
+          </div>
+        ) : <SignOut/>
+          
+        
+      }
+    
+      <ShortUrl urls={urls} user={user}/>
     </>
   );
 }
-
-

@@ -121,3 +121,19 @@ button:hover {
   margin-right: 75px;
   
 }
+
+.url-list{
+  width: 45%;
+}
+
+.url-list p{
+  padding: 20px;
+  position: relative;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  button{
+    position: absolute;
+    right: 10px;
+  }
+}
